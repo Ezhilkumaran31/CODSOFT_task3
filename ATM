@@ -1,0 +1,81 @@
+import java.util.Scanner;
+
+public class ATM {
+    private double balance;
+
+    public ATM(double initialBalance) {
+        this.balance = initialBalance;
+    }
+
+    public void displayMenu() {
+        System.out.println("\nATM Menu:");
+        System.out.println("1. Withdraw");
+        System.out.println("2. Deposit");
+        System.out.println("3. Check Balance");
+        System.out.println("4. Exit");
+    }
+
+    public void performTransaction(int choice, Scanner scanner) {
+        switch (choice) {
+            case 1:
+                System.out.print("Enter the amount to withdraw: ");
+                double withdrawAmount = scanner.nextDouble();
+                if (withdrawAmount > 0) {
+                    withdraw(withdrawAmount);
+                } else {
+                    System.out.println("Invalid amount. Withdrawal failed.");
+                }
+                break;
+
+            case 2:
+                System.out.print("Enter the amount to deposit: ");
+                double depositAmount = scanner.nextDouble();
+                if (depositAmount > 0) {
+                    deposit(depositAmount);
+                    System.out.println("Deposit successful. New balance: " + balance);
+                } else {
+                    System.out.println("Invalid amount. Deposit failed.");
+                }
+                break;
+
+            case 3:
+                // Check Balance
+                System.out.println("Your current balance: " + balance);
+                break;
+
+            case 4:
+                System.out.println("Thank you for using the ATM. Goodbye!");
+                System.exit(0);
+                break;
+
+            default:
+                System.out.println("Invalid choice. Please choose a valid option.");
+        }
+    }
+
+    public void deposit(double amount) {
+        balance += amount;
+    }
+
+    public void withdraw(double amount) {
+        if (amount > balance) {
+            System.out.println("Insufficient funds. Withdrawal failed.");
+        } else {
+            balance -= amount;
+            System.out.println("Withdrawal successful. Remaining balance: " + balance);
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        ATM atm = new ATM(1000.0);
+
+        while (true) {
+            atm.displayMenu();
+
+            System.out.print("Enter your choice (1-4): ");
+            int choice = scanner.nextInt();
+            atm.performTransaction(choice, scanner);
+        }
+    }
+}
